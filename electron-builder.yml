@@ -1,0 +1,23 @@
+appId: com.westlakesleep.textbuilder
+productName: TextBuilder
+directories:
+  output: release
+  buildResources: assets
+files:
+  - out/**/*
+  - package.json
+extraResources:
+  - from: resources/seed
+    to: seed
+mac:
+  target:
+    - dmg
+    - zip
+  category: public.app-category.medical
+win:
+  target:
+    - nsis
+    - portable
+nsis:
+  oneClick: false
+  allowToChangeInstallationDirectory: true

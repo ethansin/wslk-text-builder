@@ -216,3 +216,12 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Node / Electron
+node_modules/
+out/
+release/
+*.tsbuildinfo
+.DS_Store
+npm-debug.log*
+

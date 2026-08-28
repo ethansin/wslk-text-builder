@@ -1,0 +1,23 @@
+{
+  "name": "Discharge Summary Note",
+  "language": "en",
+  "tags": ["discharge", "follow-up"],
+  "body": "Patient {{patientName}} was discharged on {{dischargeDate}}. A follow-up call is scheduled for {{followUpDay}}.",
+  "elements": [
+    {
+      "name": "patientName",
+      "prompt": "What is the patient's name?",
+      "type": "plaintext"
+    },
+    {
+      "name": "dischargeDate",
+      "prompt": "What is the discharge date?",
+      "type": "date"
+    },
+    {
+      "name": "followUpDay",
+      "prompt": "What day is the follow-up call scheduled for?",
+      "type": "day"
+    }
+  ]
+}

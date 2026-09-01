@@ -18,7 +18,7 @@ export interface TemplateElement {
 }
 
 export interface Template {
-  /** Derived from the filename (without .json); stable key used for IPC lookups. */
+  /** Derived from the filename (without .md); stable key used for IPC lookups. */
   id: string
   name: string
   language: LanguageCode
@@ -72,4 +72,9 @@ export interface LoadWarning {
 export interface TemplatesListResult {
   templates: TemplateSummary[]
   warnings: LoadWarning[]
+}
+
+export interface SyncResult {
+  status: 'updated' | 'error'
+  message: string
 }

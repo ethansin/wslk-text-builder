@@ -11,12 +11,15 @@ export const TemplateElementSchema = z.object({
   type: ElementTypeSchema
 })
 
-/** Matches a template file's on-disk shape (no `id` — that's derived from the filename). */
-export const TemplateFileSchema = z.object({
+/**
+ * Matches a template .md file's YAML frontmatter (no `id` — derived from the filename;
+ * no `body` — that's the raw markdown content below the frontmatter, kept unescaped so
+ * templates can be hand-written as plain multi-line text with real quotes and newlines).
+ */
+export const TemplateFrontmatterSchema = z.object({
   name: z.string().min(1),
   language: LanguageCodeSchema,
   tags: z.array(z.string()),
-  body: z.string().min(1),
   elements: z.array(TemplateElementSchema)
 })
 

@@ -5,8 +5,11 @@ import { getBaseDir, getTemplatesDir, getTagsFilePath, getDayTranslationsFilePat
 
 /**
  * Creates ~/Documents/TextBuilder and seeds templates/tags.json/day-translations.json
- * if missing. Each piece is guarded independently so deleting just one file (e.g.
- * tags.json) regenerates only that file on next launch, not the whole folder.
+ * from the bundled offline fallback if missing. This only fires when GitHub sync
+ * (templateSync.ts) hasn't populated the folder yet — e.g. first launch with no
+ * network — so the app is never empty. Each piece is guarded independently so deleting
+ * just one file (e.g. tags.json) regenerates only that file on next launch, not the
+ * whole folder.
  */
 export async function ensureUserData(): Promise<void> {
   const baseDir = getBaseDir()
@@ -23,7 +26,7 @@ async function ensureTemplatesSeeded(): Promise<void> {
   const templatesDir = getTemplatesDir()
   if (existsSync(templatesDir)) {
     const files = await readdir(templatesDir)
-    if (files.some((f) => f.endsWith('.json'))) return
+    if (files.some((f) => f.endsWith('.md'))) return
   } else {
     await mkdir(templatesDir, { recursive: true })
   }

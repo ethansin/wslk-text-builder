@@ -7,6 +7,9 @@
   "license": "GPL-3.0",
   "private": true,
   "scripts": {
+    "sync-seed": "node scripts/prepare-seed.mjs",
+    "predev": "npm run sync-seed",
+    "prebuild": "npm run sync-seed",
     "dev": "electron-vite dev",
     "build": "electron-vite build",
     "build:mac": "electron-vite build && electron-builder --mac",
@@ -16,6 +19,8 @@
   },
   "dependencies": {
     "chokidar": "^3.6.0",
+    "gray-matter": "^4.0.3",
+    "tar": "^7.4.3",
     "zod": "^3.23.8"
   },
   "devDependencies": {

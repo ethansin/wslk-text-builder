@@ -1,6 +1,6 @@
 import { contextBridge, ipcRenderer } from 'electron'
 import { IPC } from '@shared/ipcChannels'
-import type { Template, TemplatesListResult, DayTranslations } from '@shared/types'
+import type { Template, TemplatesListResult, DayTranslations, SyncResult } from '@shared/types'
 
 const api = {
   listTemplates: (): Promise<TemplatesListResult> => ipcRenderer.invoke(IPC.LIST_TEMPLATES),
@@ -14,6 +14,8 @@ const api = {
   copyToClipboard: (text: string): Promise<void> => ipcRenderer.invoke(IPC.COPY_TO_CLIPBOARD, text),
 
   openTemplatesFolder: (): Promise<void> => ipcRenderer.invoke(IPC.OPEN_TEMPLATES_FOLDER),
+
+  syncTemplates: (): Promise<SyncResult> => ipcRenderer.invoke(IPC.SYNC_TEMPLATES),
 
   onTemplatesChanged: (callback: () => void): (() => void) => {
     const listener = (): void => callback()

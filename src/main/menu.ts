@@ -1,5 +1,6 @@
 import { Menu, shell, app, type MenuItemConstructorOptions } from 'electron'
 import { getTemplatesDir } from './paths'
+import { syncTemplatesFromGitHub } from './templateSync'
 
 export function buildAppMenu(): void {
   const isMac = process.platform === 'darwin'
@@ -26,6 +27,10 @@ export function buildAppMenu(): void {
     {
       label: 'File',
       submenu: [
+        {
+          label: 'Sync Templates',
+          click: () => void syncTemplatesFromGitHub()
+        },
         {
           label: 'Open Templates Folder',
           click: () => shell.openPath(getTemplatesDir())

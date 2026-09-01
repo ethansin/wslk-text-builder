@@ -9,6 +9,8 @@ interface Props {
   onSelectTemplate: (id: string) => void
 }
 
+type SyncStatus = { state: 'idle' } | { state: 'syncing' } | { state: 'done'; message: string; ok: boolean }
+
 export function BrowseScreen({ onSelectTemplate }: Props): JSX.Element {
   const [templates, setTemplates] = useState<TemplateSummary[]>([])
   const [warnings, setWarnings] = useState<LoadWarning[]>([])
@@ -16,6 +18,7 @@ export function BrowseScreen({ onSelectTemplate }: Props): JSX.Element {
   const [query, setQuery] = useState('')
   const [selectedTags, setSelectedTags] = useState<Set<string>>(new Set())
   const [loading, setLoading] = useState(true)
+  const [sync, setSync] = useState<SyncStatus>({ state: 'idle' })
 
   const refresh = async (): Promise<void> => {
     const [{ templates: list, warnings: warns }, tagList] = await Promise.all([
@@ -50,18 +53,41 @@ export function BrowseScreen({ onSelectTemplate }: Props): JSX.Element {
     })
   }
 
+  const handleSync = async (): Promise<void> => {
+    setSync({ state: 'syncing' })
+    const result = await window.api.syncTemplates()
+    setSync({ state: 'done', message: result.message, ok: result.status === 'updated' })
+    setTimeout(() => setSync({ state: 'idle' }), 3000)
+  }
+
   return (
     <div className="screen browse-screen">
       <div className="browse-header">
         <h1>TextBuilder</h1>
-        <button
-          type="button"
-          className="secondary-button"
-          onClick={() => window.api.openTemplatesFolder()}
-        >
-          Open Templates Folder
-        </button>
+        <div className="browse-header-actions">
+          <button
+            type="button"
+            className="secondary-button"
+            onClick={handleSync}
+            disabled={sync.state === 'syncing'}
+          >
+            {sync.state === 'syncing' ? 'Syncing…' : 'Sync Templates'}
+          </button>
+          <button
+            type="button"
+            className="secondary-button"
+            onClick={() => window.api.openTemplatesFolder()}
+          >
+            Open Templates Folder
+          </button>
+        </div>
       </div>
+
+      {sync.state === 'done' && (
+        <div className={sync.ok ? 'sync-banner sync-banner-ok' : 'sync-banner sync-banner-error'}>
+          {sync.ok ? 'Templates are up to date.' : `Sync failed: ${sync.message}`}
+        </div>
+      )}
 
       <SearchInput value={query} onChange={setQuery} />
       <TagFilterBar tags={tags} selected={selectedTags} onToggle={toggleTag} />
@@ -78,7 +104,7 @@ export function BrowseScreen({ onSelectTemplate }: Props): JSX.Element {
       ) : filtered.length === 0 ? (
         <p className="empty-state">
           {templates.length === 0
-            ? 'No templates yet. Add a .json template file to your templates folder to get started.'
+            ? 'No templates yet. Click Sync Templates, or add a .md template file to your templates folder to get started.'
             : 'No templates match your search or filters.'}
         </p>
       ) : (

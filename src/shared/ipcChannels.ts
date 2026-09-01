@@ -5,5 +5,6 @@ export const IPC = {
   GET_DAY_TRANSLATIONS: 'dayTranslations:get',
   COPY_TO_CLIPBOARD: 'clipboard:write',
   OPEN_TEMPLATES_FOLDER: 'shell:openTemplatesFolder',
+  SYNC_TEMPLATES: 'templates:sync',
   TEMPLATES_CHANGED: 'templates:changed'
 } as const

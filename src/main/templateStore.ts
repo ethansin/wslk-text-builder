@@ -1,12 +1,20 @@
 import { readdir, readFile } from 'fs/promises'
 import { existsSync } from 'fs'
 import { join, basename, extname } from 'path'
-import { TemplateFileSchema } from '@shared/schemas'
+import matter from 'gray-matter'
+import { TemplateFrontmatterSchema } from '@shared/schemas'
 import type { Template, TemplateSummary, LoadWarning, TemplatesListResult } from '@shared/types'
 import { getTemplatesDir } from './paths'
 
+/** Parses one template .md file: YAML frontmatter validated against the schema, body is the raw markdown below it (trimmed of the blank line the frontmatter delimiter leaves behind, otherwise untouched — no escaping). */
+function parseTemplateFile(id: string, raw: string): Template {
+  const { data, content } = matter(raw)
+  const frontmatter = TemplateFrontmatterSchema.parse(data)
+  return { id, ...frontmatter, body: content.trim() }
+}
+
 /**
- * Reads and validates every .json file in the templates folder. A malformed file is
+ * Reads and validates every .md file in the templates folder. A malformed file is
  * skipped (with a warning) rather than crashing the whole list, so one bad hand-edit
  * doesn't take down the app.
  */
@@ -20,20 +28,14 @@ async function loadAllTemplates(): Promise<{ templates: Template[]; warnings: Lo
   }
 
   const entries = await readdir(dir)
-  const jsonFiles = entries.filter((f) => extname(f).toLowerCase() === '.json')
+  const mdFiles = entries.filter((f) => extname(f).toLowerCase() === '.md')
 
-  for (const file of jsonFiles) {
+  for (const file of mdFiles) {
     const filePath = join(dir, file)
     try {
       const raw = await readFile(filePath, 'utf-8')
-      const parsed = JSON.parse(raw)
-      const result = TemplateFileSchema.safeParse(parsed)
-      if (!result.success) {
-        warnings.push({ file, message: result.error.issues.map((i) => i.message).join('; ') })
-        continue
-      }
-      const id = basename(file, '.json')
-      templates.push({ id, ...result.data })
+      const id = basename(file, '.md')
+      templates.push(parseTemplateFile(id, raw))
     } catch (err) {
       warnings.push({ file, message: err instanceof Error ? err.message : String(err) })
     }
@@ -56,9 +58,7 @@ export async function listTemplateSummaries(): Promise<TemplatesListResult> {
 
 export async function getTemplateById(id: string): Promise<Template> {
   const dir = getTemplatesDir()
-  const filePath = join(dir, `${id}.json`)
+  const filePath = join(dir, `${id}.md`)
   const raw = await readFile(filePath, 'utf-8')
-  const parsed = JSON.parse(raw)
-  const result = TemplateFileSchema.parse(parsed)
-  return { id, ...result }
+  return parseTemplateFile(id, raw)
 }

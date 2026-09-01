@@ -4,6 +4,7 @@ import { listTemplateSummaries, getTemplateById } from './templateStore'
 import { getTags } from './tagsStore'
 import { getDayTranslations } from './dayTranslations'
 import { getBaseDir, getTemplatesDir } from './paths'
+import { syncTemplatesFromGitHub } from './templateSync'
 import { existsSync } from 'fs'
 import { mkdir } from 'fs/promises'
 
@@ -19,6 +20,8 @@ export function registerIpcHandlers(): void {
   ipcMain.handle(IPC.COPY_TO_CLIPBOARD, (_event, text: string) => {
     clipboard.writeText(text)
   })
+
+  ipcMain.handle(IPC.SYNC_TEMPLATES, () => syncTemplatesFromGitHub())
 
   ipcMain.handle(IPC.OPEN_TEMPLATES_FOLDER, async () => {
     const dir = getTemplatesDir()

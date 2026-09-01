@@ -1,0 +1,38 @@
+{
+  "en": {
+    "monday": "Monday",
+    "tuesday": "Tuesday",
+    "wednesday": "Wednesday",
+    "thursday": "Thursday",
+    "friday": "Friday",
+    "saturday": "Saturday",
+    "sunday": "Sunday"
+  },
+  "es": {
+    "monday": "lunes",
+    "tuesday": "martes",
+    "wednesday": "miércoles",
+    "thursday": "jueves",
+    "friday": "viernes",
+    "saturday": "sábado",
+    "sunday": "domingo"
+  },
+  "zh-Hans": {
+    "monday": "周一",
+    "tuesday": "周二",
+    "wednesday": "周三",
+    "thursday": "周四",
+    "friday": "周五",
+    "saturday": "周六",
+    "sunday": "周日"
+  },
+  "zh-Hant": {
+    "monday": "週一",
+    "tuesday": "週二",
+    "wednesday": "週三",
+    "thursday": "週四",
+    "friday": "週五",
+    "saturday": "週六",
+    "sunday": "週日"
+  }
+}

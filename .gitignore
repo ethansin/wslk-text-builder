@@ -225,3 +225,6 @@ release/
 .DS_Store
 npm-debug.log*
 
+# Generated from templates/, tags.json, day-translations.json by scripts/prepare-seed.mjs
+resources/seed/
+

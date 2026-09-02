@@ -4,9 +4,6 @@ language: en
 tags:
   - appointment confirmation
 elements:
-  - name: patientName
-    prompt: What is the patient's name?
-    type: plaintext
   - name: apptDay
     prompt: What day of the week is the appointment?
     type: day

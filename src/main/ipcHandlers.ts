@@ -1,12 +1,9 @@
-import { ipcMain, clipboard, shell } from 'electron'
+import { ipcMain, clipboard } from 'electron'
 import { IPC } from '@shared/ipcChannels'
 import { listTemplateSummaries, getTemplateById } from './templateStore'
 import { getTags } from './tagsStore'
 import { getDayTranslations } from './dayTranslations'
-import { getBaseDir, getTemplatesDir } from './paths'
 import { syncTemplatesFromGitHub } from './templateSync'
-import { existsSync } from 'fs'
-import { mkdir } from 'fs/promises'
 
 export function registerIpcHandlers(): void {
   ipcMain.handle(IPC.LIST_TEMPLATES, () => listTemplateSummaries())
@@ -22,16 +19,4 @@ export function registerIpcHandlers(): void {
   })
 
   ipcMain.handle(IPC.SYNC_TEMPLATES, () => syncTemplatesFromGitHub())
-
-  ipcMain.handle(IPC.OPEN_TEMPLATES_FOLDER, async () => {
-    const dir = getTemplatesDir()
-    if (!existsSync(dir)) {
-      await mkdir(dir, { recursive: true })
-    }
-    const err = await shell.openPath(dir)
-    if (err) {
-      // Fall back to revealing the base folder if the templates subfolder can't be opened.
-      shell.showItemInFolder(getBaseDir())
-    }
-  })
 }

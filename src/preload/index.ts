@@ -13,8 +13,6 @@ const api = {
 
   copyToClipboard: (text: string): Promise<void> => ipcRenderer.invoke(IPC.COPY_TO_CLIPBOARD, text),
 
-  openTemplatesFolder: (): Promise<void> => ipcRenderer.invoke(IPC.OPEN_TEMPLATES_FOLDER),
-
   syncTemplates: (): Promise<SyncResult> => ipcRenderer.invoke(IPC.SYNC_TEMPLATES),
 
   onTemplatesChanged: (callback: () => void): (() => void) => {

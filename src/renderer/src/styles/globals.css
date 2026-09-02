@@ -45,11 +45,6 @@ body {
   margin: 0;
 }
 
-.browse-header-actions {
-  display: flex;
-  gap: 8px;
-}
-
 .sync-banner {
   padding: 10px 12px;
   border-radius: var(--radius);

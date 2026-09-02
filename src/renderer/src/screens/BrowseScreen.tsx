@@ -64,23 +64,14 @@ export function BrowseScreen({ onSelectTemplate }: Props): JSX.Element {
     <div className="screen browse-screen">
       <div className="browse-header">
         <h1>TextBuilder</h1>
-        <div className="browse-header-actions">
-          <button
-            type="button"
-            className="secondary-button"
-            onClick={handleSync}
-            disabled={sync.state === 'syncing'}
-          >
-            {sync.state === 'syncing' ? 'Syncing…' : 'Sync Templates'}
-          </button>
-          <button
-            type="button"
-            className="secondary-button"
-            onClick={() => window.api.openTemplatesFolder()}
-          >
-            Open Templates Folder
-          </button>
-        </div>
+        <button
+          type="button"
+          className="secondary-button"
+          onClick={handleSync}
+          disabled={sync.state === 'syncing'}
+        >
+          {sync.state === 'syncing' ? 'Syncing…' : 'Sync Templates'}
+        </button>
       </div>
 
       {sync.state === 'done' && (
@@ -104,7 +95,7 @@ export function BrowseScreen({ onSelectTemplate }: Props): JSX.Element {
       ) : filtered.length === 0 ? (
         <p className="empty-state">
           {templates.length === 0
-            ? 'No templates yet. Click Sync Templates, or add a .md template file to your templates folder to get started.'
+            ? 'No templates yet. Click Sync Templates to fetch the latest, or check your connection.'
             : 'No templates match your search or filters.'}
         </p>
       ) : (

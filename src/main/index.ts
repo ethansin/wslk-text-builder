@@ -60,15 +60,13 @@ app.whenReady().then(async () => {
   // whatever's latest on main, and the watcher above picks up the change and refreshes
   // the UI automatically. If it fails (offline), whatever's already on disk is left alone.
   void syncTemplatesFromGitHub()
-
-  app.on('activate', function () {
-    if (BrowserWindow.getAllWindows().length === 0) createWindow()
-  })
 })
 
+// Quit fully when the window closes, on every platform (including macOS, where apps
+// conventionally stay resident in the background). This is a single-purpose utility —
+// nothing runs without a window — and staying alive in the background only risks a
+// stale build lingering and getting silently reactivated instead of a freshly rebuilt one.
 app.on('window-all-closed', () => {
   stopWatcher()
-  if (process.platform !== 'darwin') {
-    app.quit()
-  }
+  app.quit()
 })

@@ -9,7 +9,7 @@ npm install
 npm run dev
 ```
 
-To test first-run behavior repeatedly without touching your real `~/Documents/TextBuilder` folder, set `TEXTBUILDER_HOME` to a scratch directory before launching:
+To test first-run behavior repeatedly without touching the app's real local data folder, set `TEXTBUILDER_HOME` to a scratch directory before launching:
 
 ```bash
 TEXTBUILDER_HOME=/tmp/textbuilder-test npm run dev
@@ -28,7 +28,7 @@ Windows builds should be produced on a Windows machine or via the GitHub Actions
 
 ## Editing templates
 
-**`templates/`, `tags.json`, and `day-translations.json` at the repo root are the source of truth**, tracked in git. Edit them here, commit, and push — every teammate's app picks up your changes automatically (see [Distributing updates to the team](#distributing-updates-to-the-team) below), no rebuild or reinstall needed.
+**`templates/`, `tags.json`, and `day-translations.json` at the repo root are the only place templates get edited.** Only the repo owner edits these — commit and push to `main` when you're ready to ship a change. Everyone else's app picks up the update automatically (see [Distributing updates to the team](#distributing-updates-to-the-team) below); nobody else edits anything, and there's no user-facing templates folder to hand-edit — the app keeps its own synced copy in Electron's internal per-app data directory, which isn't meant to be opened or touched directly (it gets overwritten by the next sync anyway).
 
 ### Template file format
 
@@ -86,13 +86,11 @@ Maps each supported language to its day names, used when a `day` element is subs
 
 ## Distributing updates to the team
 
-Templates are synced straight from this GitHub repo over plain HTTPS — nobody on the team needs to know git.
+Templates are synced straight from this GitHub repo over plain HTTPS — nobody on the team needs to know git, clone anything, or edit any files. The app's local copy lives in its internal data directory (see `src/main/paths.ts`), not anywhere users would browse.
 
 - **On every app launch**, TextBuilder silently checks GitHub for the latest `templates/`, `tags.json`, and `day-translations.json` from `main` and replaces the local copies if the check succeeds. If it fails (offline), whatever's already on disk is left alone.
 - Anyone can also click **Sync Templates** in the app (or **File → Sync Templates**) to re-check on demand.
 
-So the whole workflow for pushing out a template update is: edit the files under `templates/` (or `tags.json` / `day-translations.json`), commit, `git push` to `main`. The next time anyone opens the app — or hits Sync Templates — they get it. Nobody clones anything or runs a git command; the app does it via a plain tarball download from `https://codeload.github.com/ethansin/wslk-text-builder/tar.gz/refs/heads/main` (see `src/main/templateSync.ts`).
+So the whole workflow for pushing out a template update is: edit the files under `templates/` (or `tags.json` / `day-translations.json`) in your own checkout of this repo, commit, `git push` to `main`. The next time anyone opens the app — or hits Sync Templates — they get it, via a plain tarball download from `https://codeload.github.com/ethansin/wslk-text-builder/tar.gz/refs/heads/main` (see `src/main/templateSync.ts`).
 
 This only works because the repo is public — a private repo would need auth wired into the sync request, which isn't implemented.
-
-Locally, all three files are also watched for changes — hand-edits made in any text editor while the app is running (e.g. while you're iterating before pushing) are picked up automatically, same as a sync.

@@ -2,15 +2,18 @@ import { app } from 'electron'
 import { join } from 'path'
 
 /**
- * Base folder for user data lives under Documents so the user can find and hand-edit
- * template/tag files directly. Overridable via TEXTBUILDER_HOME for repeatable manual
- * testing without touching the real Documents folder.
+ * Templates/tags/day-translations are authored in the repo (templates/, tags.json,
+ * day-translations.json at the root) and pushed to GitHub; this folder is just the
+ * app's local synced copy, downloaded fresh on every launch — not meant to be
+ * browsed or hand-edited, so it lives in Electron's internal per-app data directory
+ * rather than somewhere user-visible like Documents. Overridable via TEXTBUILDER_HOME
+ * for repeatable manual testing.
  */
 export function getBaseDir(): string {
   if (process.env.TEXTBUILDER_HOME) {
     return process.env.TEXTBUILDER_HOME
   }
-  return join(app.getPath('documents'), 'TextBuilder')
+  return app.getPath('userData')
 }
 
 export function getTemplatesDir(): string {

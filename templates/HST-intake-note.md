@@ -1,5 +1,5 @@
 ---
-name: HST Appointment Confirmation
+name: HST Intake Note
 language: en
 tags:
   - appointment confirmation

@@ -1,5 +1,5 @@
 ---
-name: HST Appointment Confirmation
+name: AST Appointment Confirmation
 language: en
 tags:
   - appointment confirmation

@@ -3,6 +3,7 @@ name: HST Appointment Confirmation Chinese Simplified
 language: zh-Hans
 tags:
   - appointment confirmation
+  - HST
 elements:
   - name: apptDay
     prompt: What day of the week is the appointment?

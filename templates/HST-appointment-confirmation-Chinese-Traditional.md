@@ -3,6 +3,7 @@ name: HST Appointment Confirmation Chinese Traditional
 language: zh-Hant
 tags:
   - appointment confirmation
+  - HST
 elements:
   - name: apptDay
     prompt: What day of the week is the appointment?

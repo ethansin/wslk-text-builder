@@ -3,6 +3,7 @@ name: HST Intake Note
 language: en
 tags:
   - appointment confirmation
+  - HST
 elements:
   - name: insurance
     prompt: What insurance does the patient have?

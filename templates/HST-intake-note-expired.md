@@ -3,6 +3,7 @@ name: HST Intake Note Insurance Expired
 language: en
 tags:
   - appointment confirmation
+  - HST
 elements:
   - name: expDate
     prompt: When did the patient's insurance expire?

@@ -3,6 +3,7 @@ name: AST Appointment Confirmation Spanish
 language: es
 tags:
   - appointment confirmation
+  - In-Lab
 elements:
   - name: apptDay
     prompt: What day of the week is the appointment?

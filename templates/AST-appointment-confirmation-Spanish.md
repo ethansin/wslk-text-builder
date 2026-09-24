@@ -1,5 +1,5 @@
 ---
-name: AST Appointment Confirmation Spanish
+name: In-Lab Appointment Confirmation Spanish
 language: es
 tags:
   - appointment confirmation

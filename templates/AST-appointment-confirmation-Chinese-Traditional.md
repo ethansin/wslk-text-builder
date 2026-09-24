@@ -1,5 +1,5 @@
 ---
-name: AST Appointment Confirmation Chinese Traditional
+name: In-Lab Appointment Confirmation Chinese Traditional
 language: zh-Hant
 tags:
   - appointment confirmation

@@ -1,5 +1,5 @@
 ---
-name: AST Appointment Confirmation
+name: In-Lab Appointment Confirmation
 language: en
 tags:
   - appointment confirmation

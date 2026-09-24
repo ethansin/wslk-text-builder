@@ -1,5 +1,5 @@
 ---
-name: AST Appointment Confirmation Chinese Simplified
+name: In-Lab Appointment Confirmation Chinese Simplified
 language: zh-Hans
 tags:
   - appointment confirmation
